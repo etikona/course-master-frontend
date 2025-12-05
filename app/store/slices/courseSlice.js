@@ -77,6 +77,12 @@ const courseSlice = createSlice({
     clearCurrentCourse: (state) => {
       state.currentCourse = null;
     },
+    setCourses: (state, action) => {
+      state.courses = action.payload;
+    },
+    setPagination: (state, action) => {
+      state.pagination = { ...state.pagination, ...action.payload };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -119,6 +125,11 @@ const courseSlice = createSlice({
   },
 });
 
-export const { setFilters, clearFilters, clearCurrentCourse } =
-  courseSlice.actions;
+export const {
+  setFilters,
+  clearFilters,
+  clearCurrentCourse,
+  setCourses,
+  setPagination,
+} = courseSlice.actions;
 export default courseSlice.reducer;
