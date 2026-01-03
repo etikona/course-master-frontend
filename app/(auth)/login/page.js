@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useAuth, useAuthActions } from "@/app/hooks/useRedux";
 import { toast } from "react-toastify";
 import { FiMail, FiLock, FiLogIn } from "react-icons/fi";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
+import LoadingSpinner from "@/app/components/common/LoadingSpinner";
 
 export default function LoginPage() {
   const router = useRouter();

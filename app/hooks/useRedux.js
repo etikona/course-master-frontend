@@ -1,14 +1,21 @@
 "use client";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 
-// Generic hook for useSelector
-export const useAppSelector = useSelector;
+import {
+  fetchCourses,
+  fetchCourse,
+  enrollCourse,
+} from "@/app/store/slices/courseSlice";
 
-// Generic hook for useDispatch
+import { login, register, logout, getMe } from "@/app/store/slices/authSlice";
+
+// Generic hooks
+export const useAppSelector = useSelector;
 export const useAppDispatch = () => useDispatch();
 
-// Auth hooks
+// ---------------- AUTH HOOK ----------------
 export const useAuth = () => {
   const dispatch = useAppDispatch();
   const authState = useAppSelector((state) => state.auth);
@@ -31,7 +38,7 @@ export const useAuth = () => {
   };
 };
 
-// Course hooks
+// ---------------- COURSES HOOK ----------------
 export const useCourses = () => {
   const dispatch = useAppDispatch();
   const courseState = useAppSelector((state) => state.courses);
@@ -43,13 +50,15 @@ export const useCourses = () => {
     [dispatch]
   );
 
-  const clearFilters = useCallback(() => {
-    dispatch({ type: "courses/clearFilters" });
-  }, [dispatch]);
+  const clearFilters = useCallback(
+    () => dispatch({ type: "courses/clearFilters" }),
+    [dispatch]
+  );
 
-  const clearCurrentCourse = useCallback(() => {
-    dispatch({ type: "courses/clearCurrentCourse" });
-  }, [dispatch]);
+  const clearCurrentCourse = useCallback(
+    () => dispatch({ type: "courses/clearCurrentCourse" }),
+    [dispatch]
+  );
 
   return {
     ...courseState,
@@ -59,7 +68,7 @@ export const useCourses = () => {
   };
 };
 
-// UI hooks
+// ---------------- UI HOOK ----------------
 export const useUI = () => {
   const dispatch = useAppDispatch();
   const uiState = useAppSelector((state) => state.ui);
@@ -85,9 +94,10 @@ export const useUI = () => {
     [dispatch]
   );
 
-  const hideNotification = useCallback(() => {
-    dispatch({ type: "ui/hideNotification" });
-  }, [dispatch]);
+  const hideNotification = useCallback(
+    () => dispatch({ type: "ui/hideNotification" }),
+    [dispatch]
+  );
 
   return {
     ...uiState,
@@ -98,62 +108,25 @@ export const useUI = () => {
   };
 };
 
-// Thunk action hooks
+// ---------------- AUTH ACTIONS (THUNKS) ----------------
 export const useAuthActions = () => {
   const dispatch = useAppDispatch();
 
-  const register = useCallback(
-    (userData) =>
-      dispatch({ type: "auth/register/pending", payload: userData }),
-    [dispatch]
-  );
-
-  const login = useCallback(
-    (credentials) =>
-      dispatch({ type: "auth/login/pending", payload: credentials }),
-    [dispatch]
-  );
-
-  const logout = useCallback(
-    () => dispatch({ type: "auth/logout/pending" }),
-    [dispatch]
-  );
-
-  const getMe = useCallback(
-    () => dispatch({ type: "auth/getMe/pending" }),
-    [dispatch]
-  );
-
   return {
-    register,
-    login,
-    logout,
-    getMe,
+    register: (data) => dispatch(register(data)),
+    login: (data) => dispatch(login(data)),
+    logout: () => dispatch(logout()),
+    getMe: () => dispatch(getMe()),
   };
 };
 
+// ---------------- COURSE ACTIONS (THUNKS) ----------------
 export const useCourseActions = () => {
   const dispatch = useAppDispatch();
 
-  const fetchCourses = useCallback(
-    (params) =>
-      dispatch({ type: "courses/fetchCourses/pending", payload: params }),
-    [dispatch]
-  );
-
-  const fetchCourse = useCallback(
-    (id) => dispatch({ type: "courses/fetchCourse/pending", payload: id }),
-    [dispatch]
-  );
-
-  const enrollCourse = useCallback(
-    (data) => dispatch({ type: "courses/enrollCourse/pending", payload: data }),
-    [dispatch]
-  );
-
   return {
-    fetchCourses,
-    fetchCourse,
-    enrollCourse,
+    fetchCourses: (params) => dispatch(fetchCourses(params)),
+    fetchCourse: (id) => dispatch(fetchCourse(id)),
+    enrollCourse: (data) => dispatch(enrollCourse(data)),
   };
 };

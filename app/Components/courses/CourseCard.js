@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
-const CourseCard = (course, CourseCardProps) => {
+const CourseCard = (course, variant) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
@@ -40,6 +40,8 @@ const CourseCard = (course, CourseCardProps) => {
             <Image
               src={course.thumbnail || "/course-placeholder.jpg"}
               alt={course.title}
+              width={30}
+              height={20}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
             />
             {course.isPublished === false && (
@@ -113,6 +115,8 @@ const CourseCard = (course, CourseCardProps) => {
             <div className="aspect-video overflow-hidden">
               <Image
                 src={course.thumbnail || "/course-placeholder.jpg"}
+                width={30}
+                height={20}
                 alt={course.title}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
@@ -163,10 +167,10 @@ const CourseCard = (course, CourseCardProps) => {
 
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                {course.instructor.avatar ? (
+                {course.instructor?.avatar ? (
                   <Image
-                    src={course.instructor.avatar}
-                    alt={course.instructor.name}
+                    src={course.instructor?.avatar}
+                    alt={course.instructor?.name}
                     className="w-8 h-8 rounded-full mr-2"
                   />
                 ) : (
@@ -198,17 +202,19 @@ const CourseCard = (course, CourseCardProps) => {
     >
       <CardContent className="p-0">
         {/* Course Thumbnail */}
-        <div className="relative overflow-hidden aspect-[16/9]">
+        <div className="relative overflow-hidden aspect-video">
           <Image
             src={course.thumbnail || "/course-placeholder.jpg"}
             alt={course.title}
+            width={30}
+            height={20}
             className={`w-full h-full object-cover transition-all duration-500 ${
               isHovered ? "scale-110" : "scale-100"
             }`}
           />
 
           {/* Overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
           {/* Price badge */}
           <div className="absolute top-4 right-4">
@@ -296,10 +302,10 @@ const CourseCard = (course, CourseCardProps) => {
 
           {/* Instructor Info */}
           <div className="flex items-center mb-6">
-            {course.instructor.avatar ? (
+            {course.instructor?.avatar ? (
               <Image
-                src={course.instructor.avatar}
-                alt={course.instructor.name}
+                src={course.instructor?.avatar}
+                alt={course.instructor?.name}
                 className="w-10 h-10 rounded-full mr-3 ring-2 ring-primary/20"
               />
             ) : (
@@ -310,7 +316,7 @@ const CourseCard = (course, CourseCardProps) => {
             <div>
               <p className="font-medium text-sm">Instructor</p>
               <p className="text-foreground font-semibold">
-                {course.instructor.name}
+                {course.instructor?.name}
               </p>
             </div>
           </div>
